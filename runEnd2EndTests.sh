@@ -38,14 +38,14 @@ selendroid_version=`grep '<version' pom.xml | cut -f2 -d">"|cut -f1 -d"<"|head -
 echo "deleting existing emulator"
 android delete avd -n ${avd_name}
 echo "create a new one"
-echo no | android create avd -n ${avd_name} -t android-${platform_version} --force --abi x86
+echo no | android create avd -n ${avd_name} -t android-${platform_version} --force --abi armeabi-v7a
 
 
 START=$(date +%s)
 emulator_port=5560
 
 echo "Using: ${locale} to start an emulator for API version: ${platform_version}"
-emulator -avd $avd_name -no-audio -no-boot-anim -port $emulator_port&
+emulator -avd $avd_name -no-window -no-audio -no-boot-anim -port $emulator_port&
 wait_for_boot_complete "init.svc.bootanim" "stopped"
 adb -s emulator-${emulator_port} shell input keyevent 4
 adb -s emulator-${emulator_port} shell input keyevent 82

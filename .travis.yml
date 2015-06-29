@@ -6,22 +6,10 @@ android:
     - extra-android-m2repository
     - android-16
     - sysimg-16
+    - sys-img-armeabi-v7a-android-18
   licences:
     - android-sdk-license-bcbbd656
     - '.*intel.+'
-
-notifications:
-  email: false
-  irc:
-    channels:
-      - "irc.freenode.org#selendroid"
-    on_success: always
-    on_failure: always
-    use_notice: true
-  
-branches:
-  only:
-    - master
 
 before_install: 
   - "git clone -b travis `git config --get remote.origin.url` target/travis"
@@ -30,8 +18,9 @@ before_install:
   - "./mvnInstall.sh"
   - "cd ../"
 
-script: 
-  - "[ ${TRAVIS_PULL_REQUEST} = 'false' ] && mvn clean deploy --settings target/travis/settings.xml || mvn clean verify --settings target/travis/settings.xml"
+script:
+  - mvn clean install
+  - ./runEnd2EndTests.sh
 
 
 env:
